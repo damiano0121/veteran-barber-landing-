@@ -618,21 +618,45 @@ const TEAM: TeamMember[] = [
 
 function BarberModal({ member, onClose }: { member: TeamMember; onClose: () => void }) {
   useEffect(() => {
-    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
-    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", onKey); };
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
   }, [onClose]);
 
   return (
     <div
       onClick={onClose}
-      style={{ position: "fixed", inset: 0, zIndex: 9999, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1.5rem" }}
+      style={{
+        position:       "fixed",
+        inset:          0,
+        zIndex:         1000,
+        background:     "rgba(0,0,0,0.92)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        display:        "flex",
+        alignItems:     "center",
+        justifyContent: "center",
+        padding:        "1rem",
+      }}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{ background: "#0D0D0D", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 4, padding: "2.5rem", maxWidth: 420, width: "100%", position: "relative", animation: "slideUp 0.3s ease-out both" }}
+        style={{
+          position:   "relative",
+          maxWidth:   480,
+          width:      "100%",
+          maxHeight:  "90vh",
+          overflowY:  "auto",
+          background: "#111111",
+          border:     "1px solid rgba(201,168,76,0.2)",
+          borderRadius: 8,
+          padding:    "2.5rem",
+          animation:  "slideUp 0.3s ease-out both",
+        }}
       >
         {/* Close */}
         <button
