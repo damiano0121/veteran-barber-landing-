@@ -207,18 +207,6 @@ function Navbar() {
             <span className="gradient-text">Veteran Barber</span>
           </button>
 
-          {/* Instagram link — icon + text desktop, icon-only mobile */}
-          <a
-            href="https://instagram.com/veteran_barber_pl"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: "rgba(255,255,255,0.6)", fontSize: "0.8rem", transition: "color 0.2s", textDecoration: "none" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = T.gold)}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
-          >
-            <IgIcon size={15} />
-            <span className="ig-label">@veteran_barber_pl</span>
-          </a>
         </div>
 
         {/* RIGHT: Nav links + CTA */}
@@ -286,22 +274,8 @@ function Navbar() {
    HERO — bez logo
 ════════════════════════════════════════════════════ */
 function Hero() {
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const logo = document.getElementById("hero-logo");
-      if (logo) {
-        const opacity = Math.max(0, 0.82 - scrollY / 200);
-        logo.style.opacity = String(opacity);
-        logo.style.transform = `translateY(${scrollY * 0.15}px)`;
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <section style={{ position: "relative", minHeight: "100vh", background: T.bgPrimary, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 80 }}>
+    <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", background: T.bgPrimary, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 80 }}>
       {/* Spotlight gradients */}
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
@@ -324,24 +298,6 @@ function Hero() {
 
       {/* Content */}
       <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "0 1.5rem" }}>
-        {/* Logo z animacją scroll-fade */}
-        <img
-          id="hero-logo"
-          src="/logo-bez-tla.png"
-          alt="Veteran Barber"
-          style={{
-            width:      "180px",
-            height:     "180px",
-            objectFit:  "contain",
-            opacity:    0.82,
-            filter:     "drop-shadow(0 0 40px rgba(201,168,76,0.35)) brightness(0.92)",
-            transition: "opacity 0.1s ease",
-            animation:  "logoAppear 1s ease-out 0.1s both",
-            display:    "block",
-            margin:     "0 auto 1.5rem auto",
-          }}
-        />
-
         <h1 className="hero-h1" style={{
           fontSize: "clamp(2.8rem, 7vw, 6.5rem)", fontWeight: 900,
           letterSpacing: "0.08em", textTransform: "uppercase", lineHeight: 1.0, margin: 0,
@@ -373,13 +329,6 @@ function Hero() {
         </p>
       </div>
 
-      {/* Scroll indicator */}
-      <div style={{ position: "absolute", bottom: "2rem", left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem", animation: "slideUp 1s ease-out 1.4s both" }}>
-        <span style={{ color: "rgba(201,168,76,0.4)", fontSize: "0.65rem", letterSpacing: "0.15em" }}>SCROLL</span>
-        <div style={{ width: 1, height: 48, background: "rgba(201,168,76,0.15)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", left: 0, right: 0, top: 0, background: T.gold, animation: "scrollFill 1.8s ease-in-out infinite" }} />
-        </div>
-      </div>
     </section>
   );
 }
@@ -472,7 +421,7 @@ function ServiceCard({ s, delay }: { s: typeof SERVICES[0]; delay: number }) {
       {/* Header row */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
         <div style={{ flex: 1 }}>
-          <p style={{ color: T.textPri, fontWeight: 700, fontSize: "0.95rem", marginBottom: "0.25rem", letterSpacing: "0.01em" }}>
+          <p className="gradient-text" style={{ fontWeight: 700, fontSize: "0.95rem", marginBottom: "0.25rem", letterSpacing: "0.01em" }}>
             {s.name}
           </p>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.8rem" }}>{s.short}</p>
@@ -511,13 +460,12 @@ function ServiceCard({ s, delay }: { s: typeof SERVICES[0]; delay: number }) {
 
 function Uslugi() {
   return (
-    <section id="uslugi" style={{ background: T.bgSecondary, padding: "6rem 1.5rem" }}>
+    <section id="uslugi" style={{ position: "relative", zIndex: 1, background: T.bgSecondary, padding: "6rem 1.5rem" }}>
       <div style={{ maxWidth: 920, margin: "0 auto" }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <span style={sectionLabel}>Co oferujemy</span>
-          <h2 style={{ ...sectionTitle, color: T.textPri }}>
-            <span className="gradient-text">Usługi</span>{" "}
-            <span style={{ color: T.textPri }}>i Ceny</span>
+          <h2 className="gradient-text" style={{ ...sectionTitle }}>
+            Usługi i Ceny
           </h2>
           <GoldLine />
           <p style={{ color: T.textSec, fontSize: "0.82rem", marginTop: "1rem" }}>
@@ -631,12 +579,12 @@ function SalonCard({ s, delay }: { s: typeof SALONS[0]; delay: number }) {
 
 function Salony() {
   return (
-    <section id="salony" style={{ background: T.bgPrimary, padding: "6rem 1.5rem" }}>
+    <section id="salony" style={{ position: "relative", zIndex: 1, background: T.bgPrimary, padding: "6rem 1.5rem" }}>
       <div style={{ maxWidth: 1120, margin: "0 auto" }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <span style={sectionLabel}>Znajdź nas</span>
-          <h2 style={{ ...sectionTitle, color: T.textPri }}>
-            Nasze <span className="gradient-text">Salony</span>
+          <h2 className="gradient-text" style={{ ...sectionTitle }}>
+            Nasze Salony
           </h2>
           <GoldLine />
         </div>
@@ -692,7 +640,7 @@ function BarberModal({ member, onClose }: { member: TeamMember; onClose: () => v
           <span className="gradient-text" style={{ fontSize: "1.6rem", fontWeight: 900 }}>{initials(member.name)}</span>
         </div>
 
-        <h3 style={{ color: T.textPri, fontWeight: 800, fontSize: "1.2rem", textAlign: "center", marginBottom: "0.4rem", letterSpacing: "0.03em" }}>
+        <h3 className="gradient-text" style={{ fontWeight: 800, fontSize: "1.2rem", textAlign: "center", marginBottom: "0.4rem", letterSpacing: "0.03em" }}>
           {member.name}
         </h3>
         <p style={{ color: T.gold, fontSize: "0.82rem", textAlign: "center", marginBottom: "1.5rem", letterSpacing: "0.06em" }}>
@@ -717,12 +665,12 @@ function Zespol() {
   const [selected, setSelected] = useState<TeamMember | null>(null);
 
   return (
-    <section id="zespol" style={{ background: T.bgSecondary, padding: "6rem 1.5rem" }}>
+    <section id="zespol" style={{ position: "relative", zIndex: 1, background: T.bgSecondary, padding: "6rem 1.5rem" }}>
       <div style={{ maxWidth: 1000, margin: "0 auto" }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <span style={sectionLabel}>Poznaj nas</span>
-          <h2 style={{ ...sectionTitle, color: T.textPri }}>
-            Nasz <span className="gradient-text">Zespół</span>
+          <h2 className="gradient-text" style={{ ...sectionTitle }}>
+            Nasz Zespół
           </h2>
           <GoldLine />
         </div>
@@ -765,7 +713,7 @@ function BarberCard({ member, delay, onClick }: { member: TeamMember; delay: num
         <span className="gradient-text" style={{ fontSize: "1.25rem", fontWeight: 900 }}>{initials(member.name)}</span>
       </div>
 
-      <p style={{ color: T.textPri, fontWeight: 700, fontSize: "0.9rem", marginTop: "1rem", marginBottom: "0.3rem", letterSpacing: "0.01em" }}>
+      <p className="gradient-text" style={{ fontWeight: 700, fontSize: "0.9rem", marginTop: "1rem", marginBottom: "0.3rem", letterSpacing: "0.01em" }}>
         {member.name}
       </p>
       <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.78rem", lineHeight: 1.4, marginBottom: "0.6rem" }}>
@@ -783,12 +731,12 @@ function BarberCard({ member, delay, onClick }: { member: TeamMember; delay: num
 ════════════════════════════════════════════════════ */
 function Prace() {
   return (
-    <section id="prace" style={{ background: T.bgPrimary, padding: "6rem 1.5rem" }}>
+    <section id="prace" style={{ position: "relative", zIndex: 1, background: T.bgPrimary, padding: "6rem 1.5rem" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: "1rem" }}>
           <span style={sectionLabel}>Portfolio</span>
-          <h2 style={{ ...sectionTitle, color: T.textPri }}>
-            Nasze <span className="gradient-text">Prace</span>
+          <h2 className="gradient-text" style={{ ...sectionTitle }}>
+            Nasze Prace
           </h2>
           <GoldLine />
         </div>
@@ -903,7 +851,7 @@ const FAQ_ITEMS = [
 function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
   return (
-    <section id="faq" style={{ background: T.bgSecondary, padding: "6rem 1.5rem" }}>
+    <section id="faq" style={{ position: "relative", zIndex: 1, background: T.bgSecondary, padding: "6rem 1.5rem" }}>
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <span style={sectionLabel}>Masz pytania?</span>
@@ -968,7 +916,7 @@ function Kontakt() {
   };
 
   return (
-    <section id="kontakt" style={{ background: T.bgPrimary, padding: "6rem 1.5rem" }}>
+    <section id="kontakt" style={{ position: "relative", zIndex: 1, background: T.bgPrimary, padding: "6rem 1.5rem" }}>
       <div style={{ maxWidth: 1020, margin: "0 auto" }}>
         <div className="reveal" style={{ textAlign: "center", marginBottom: "3.5rem" }}>
           <span style={sectionLabel}>Napisz do nas</span>
@@ -1038,7 +986,7 @@ function Kontakt() {
 ════════════════════════════════════════════════════ */
 function Footer() {
   return (
-    <footer style={{ background: "#030303", borderTop: "1px solid rgba(201,168,76,0.15)", padding: "3.5rem 1.5rem 2rem" }}>
+    <footer style={{ position: "relative", zIndex: 1, background: "#030303", borderTop: "1px solid rgba(201,168,76,0.15)", padding: "3.5rem 1.5rem 2rem" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2.5rem", marginBottom: "2.5rem" }}>
           {/* Brand + IG */}
