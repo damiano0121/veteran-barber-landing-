@@ -84,7 +84,7 @@ function FbIcon({ size = 18 }: { size?: number }) {
    SHARED
 ════════════════════════════════════════════════════ */
 const sectionLabel: React.CSSProperties = {
-  color:         T.gold,
+  color:         "rgba(255,255,255,0.6)",
   fontSize:      "0.72rem",
   letterSpacing: "0.22em",
   textTransform: "uppercase",
@@ -204,22 +204,7 @@ function Navbar() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit", display: "flex", alignItems: "center" }}
           >
-            <img
-              src="/logo-bez-tla.png"
-              alt="Veteran Barber"
-              style={{
-                width:      38,
-                height:     38,
-                objectFit:  "contain",
-                filter:     scrolled
-                  ? "drop-shadow(0 0 8px rgba(201,168,76,0.4)) brightness(0.95)"
-                  : "drop-shadow(0 0 8px rgba(201,168,76,0.4)) brightness(1.05)",
-                marginRight: 10,
-                transition: "filter 0.3s ease",
-                flexShrink: 0,
-              }}
-            />
-            <span className="gradient-text" style={{ fontWeight: 900, fontSize: "1rem", letterSpacing: "0.15em", textTransform: "uppercase" }}>
+            <span style={{ fontWeight: 900, fontSize: "1rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#FFFFFF" }}>
               Veteran Barber
             </span>
           </button>
@@ -302,7 +287,7 @@ function Hero() {
 
       {/* Watermark logo — powoli obraca się w tle */}
       <img
-        src="/logo-bez-tla.png"
+        src="/logo.JPG"
         alt=""
         aria-hidden="true"
         style={{
@@ -313,8 +298,8 @@ function Hero() {
           width:        "min(600px, 90vw)",
           height:       "min(600px, 90vw)",
           objectFit:    "contain",
-          opacity:      0.04,
-          filter:       "grayscale(30%) brightness(2) sepia(20%)",
+          opacity:      0.13,
+          filter:       "grayscale(20%) brightness(1.8) sepia(10%)",
           pointerEvents:"none",
           userSelect:   "none",
           zIndex:       0,
@@ -676,10 +661,10 @@ function BarberModal({ member, onClose }: { member: TeamMember; onClose: () => v
 
         {/* Avatar */}
         <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "2px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
-          <span className="gradient-text" style={{ fontSize: "1.6rem", fontWeight: 900 }}>{initials(member.name)}</span>
+          <span style={{ color: "#FFFFFF", fontSize: "1.6rem", fontWeight: 900 }}>{initials(member.name)}</span>
         </div>
 
-        <h3 className="gradient-text" style={{ fontWeight: 800, fontSize: "1.2rem", textAlign: "center", marginBottom: "0.4rem", letterSpacing: "0.03em" }}>
+        <h3 style={{ color: "#FFFFFF", fontWeight: 800, fontSize: "1.2rem", textAlign: "center", marginBottom: "0.4rem", letterSpacing: "0.03em" }}>
           {member.name}
         </h3>
         <p style={{ color: T.gold, fontSize: "0.82rem", textAlign: "center", marginBottom: "1.5rem", letterSpacing: "0.06em" }}>
@@ -749,10 +734,10 @@ function BarberCard({ member, delay, onClick }: { member: TeamMember; delay: num
       }}
     >
       <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "2px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
-        <span className="gradient-text" style={{ fontSize: "1.25rem", fontWeight: 900 }}>{initials(member.name)}</span>
+        <span style={{ color: "#FFFFFF", fontSize: "1.25rem", fontWeight: 900 }}>{initials(member.name)}</span>
       </div>
 
-      <p className="gradient-text" style={{ fontWeight: 700, fontSize: "0.9rem", marginTop: "1rem", marginBottom: "0.3rem", letterSpacing: "0.01em" }}>
+      <p style={{ color: "#FFFFFF", fontWeight: 700, fontSize: "0.9rem", marginTop: "1rem", marginBottom: "0.3rem", letterSpacing: "0.01em" }}>
         {member.name}
       </p>
       <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.78rem", lineHeight: 1.4, marginBottom: "0.6rem" }}>
