@@ -446,15 +446,21 @@ function ServiceCard({ s, delay }: { s: typeof SERVICES[0]; delay: number }) {
 
       {/* Expandable description */}
       <div style={{
-        maxHeight:  expanded ? 300 : 0,
+        maxHeight:  expanded ? 500 : 0,
+        opacity:    expanded ? 1 : 0,
         overflow:   "hidden",
-        transition: "max-height 0.4s ease",
+        transition: "max-height 0.4s ease, opacity 0.3s ease",
       }}>
-        <div style={{ paddingTop: "1rem", borderTop: `1px solid ${T.borderGold}`, marginTop: "1rem" }}>
-          <p style={{ color: T.textSec, fontSize: "0.875rem", lineHeight: 1.75 }}>
-            {s.full}
-          </p>
-        </div>
+        <p style={{
+          padding:    "1rem 0 0.5rem 0",
+          color:      "rgba(255,255,255,0.6)",
+          fontSize:   "0.9rem",
+          lineHeight: 1.7,
+          borderTop:  "1px solid rgba(255,255,255,0.06)",
+          marginTop:  "0.75rem",
+        }}>
+          {s.full}
+        </p>
       </div>
     </div>
   );
@@ -801,19 +807,15 @@ const PHOTOS = [
   "/klient%204.JPEG",
 ];
 
-function WorkPhoto({ src }: { src: string }) {
-  return (
-    <div style={{ overflow: "hidden", borderRadius: 4, aspectRatio: "3 / 4" }}>
-      <img
-        src={src}
-        alt="Realizacja Veteran Barber"
-        style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4, border: "1px solid rgba(201,168,76,0.2)", display: "block", transition: "transform 0.3s ease, border-color 0.3s ease" }}
-        onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.02)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.6)"; }}
-        onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)";    e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)"; }}
-      />
-    </div>
-  );
-}
+const mediaStyle: React.CSSProperties = {
+  width:        "100%",
+  height:       "100%",
+  objectFit:    "cover",
+  borderRadius: 3,
+  border:       "1px solid rgba(201,168,76,0.15)",
+  display:      "block",
+  transition:   "border-color 0.3s ease",
+};
 
 function Prace() {
   return (
@@ -830,60 +832,40 @@ function Prace() {
           Każde cięcie to nasza wizytówka.
         </p>
 
-        {/*
-          Grid asymetryczny:
-          Col 1 (2fr) — klient6 video, cała wysokość (row 1-3)
-          Col 2 (1fr) — klient5 video (row 1), klient1 foto (row 2), klient2 foto (row 3)
-          Col 3 (1fr) — klient3 foto (row 1), klient4 foto (row 2), złoty kafelek (row 3)
-        */}
-        <div
-          className="reveal prace-grid"
-          data-delay={150}
-          style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 8 }}
-        >
-          {/* klient6 — główne video, col 1, row 1-3 */}
-          <div style={{ gridColumn: 1, gridRow: "1 / 4", overflow: "hidden", borderRadius: 4 }}>
-            <video autoPlay muted loop playsInline
-              style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4, border: "1px solid rgba(201,168,76,0.2)", display: "block", transition: "border-color 0.3s ease" }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)")}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)")}
-            >
-              <source src="/klient6-film.MOV" type="video/mp4" />
-            </video>
+        <div className="reveal" data-delay={150}>
+          {/* GÓRNY RÄD — 2 filmy obok siebie */}
+          <div className="prace-videos" style={{ display: "flex", gap: 6 }}>
+            <div style={{ flex: 1, aspectRatio: "16/9", position: "relative", overflow: "hidden", borderRadius: 3 }}>
+              <video autoPlay muted loop playsInline style={mediaStyle}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)")}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.15)")}
+              >
+                <source src="/klient6-film.MOV" type="video/mp4" />
+              </video>
+            </div>
+            <div style={{ flex: 1, aspectRatio: "16/9", position: "relative", overflow: "hidden", borderRadius: 3 }}>
+              <video autoPlay muted loop playsInline style={mediaStyle}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)")}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.15)")}
+              >
+                <source src="/klient5.MP4" type="video/mp4" />
+              </video>
+            </div>
           </div>
 
-          {/* klient5 — drugie video, col 2, row 1 */}
-          <div style={{ gridColumn: 2, gridRow: 1, overflow: "hidden", borderRadius: 4, aspectRatio: "3 / 4" }}>
-            <video autoPlay muted loop playsInline
-              style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4, border: "1px solid rgba(201,168,76,0.2)", display: "block", transition: "border-color 0.3s ease" }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)")}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)")}
-            >
-              <source src="/klient5.MP4" type="video/mp4" />
-            </video>
-          </div>
-
-          {/* klient3 — col 3, row 1 */}
-          <div style={{ gridColumn: 3, gridRow: 1 }}><WorkPhoto src={PHOTOS[2]} /></div>
-
-          {/* klient1 — col 2, row 2 */}
-          <div style={{ gridColumn: 2, gridRow: 2 }}><WorkPhoto src={PHOTOS[0]} /></div>
-
-          {/* klient4 — col 3, row 2 */}
-          <div style={{ gridColumn: 3, gridRow: 2 }}><WorkPhoto src={PHOTOS[3]} /></div>
-
-          {/* klient2 — col 2, row 3 */}
-          <div style={{ gridColumn: 2, gridRow: 3 }}><WorkPhoto src={PHOTOS[1]} /></div>
-
-          {/* Złoty kafelek — col 3, row 3 */}
-          <div style={{ gridColumn: 3, gridRow: 3, aspectRatio: "3 / 4", borderRadius: 4, background: T.goldGrad, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "1.25rem", textAlign: "center" }}>
-            <span style={{ color: "#080808", fontWeight: 900, fontSize: "0.85rem", letterSpacing: "0.18em", textTransform: "uppercase", lineHeight: 1.3 }}>
-              Veteran<br />Barber
-            </span>
-            <div style={{ width: 28, height: 1, background: "rgba(8,8,8,0.3)", margin: "0.75rem auto" }} />
-            <span style={{ color: "rgba(8,8,8,0.65)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-              Haircut &amp; Shave
-            </span>
+          {/* DOLNY RÄD — 4 zdjęcia */}
+          <div className="prace-photos" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6, marginTop: 6 }}>
+            {PHOTOS.map((src) => (
+              <div key={src} style={{ aspectRatio: "3/4", position: "relative", overflow: "hidden", borderRadius: 3 }}>
+                <img
+                  src={src}
+                  alt="Realizacja Veteran Barber"
+                  style={mediaStyle}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.15)")}
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -901,14 +883,9 @@ function Prace() {
 
       <style>{`
         @media (max-width: 768px) {
-          .prace-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .prace-grid > div {
-            grid-column: 1 !important;
-            grid-row: auto !important;
-          }
-          .prace-grid > div:first-child { aspect-ratio: 9/16; }
+          .prace-videos { flex-direction: column !important; }
+          .prace-videos > div { flex: none !important; width: 100%; }
+          .prace-photos { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </section>
