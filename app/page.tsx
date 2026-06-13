@@ -202,9 +202,26 @@ function Navbar() {
         <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            style={{ background: "none", border: "none", cursor: "pointer", fontWeight: 900, fontSize: "1rem", letterSpacing: "0.15em", textTransform: "uppercase", padding: 0, fontFamily: "inherit" }}
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit", display: "flex", alignItems: "center" }}
           >
-            <span className="gradient-text">Veteran Barber</span>
+            <img
+              src="/logo-bez-tla.png"
+              alt="Veteran Barber"
+              style={{
+                width:      38,
+                height:     38,
+                objectFit:  "contain",
+                filter:     scrolled
+                  ? "drop-shadow(0 0 8px rgba(201,168,76,0.4)) brightness(0.95)"
+                  : "drop-shadow(0 0 8px rgba(201,168,76,0.4)) brightness(1.05)",
+                marginRight: 10,
+                transition: "filter 0.3s ease",
+                flexShrink: 0,
+              }}
+            />
+            <span className="gradient-text" style={{ fontWeight: 900, fontSize: "1rem", letterSpacing: "0.15em", textTransform: "uppercase" }}>
+              Veteran Barber
+            </span>
           </button>
 
         </div>
@@ -282,6 +299,28 @@ function Hero() {
         background: `radial-gradient(ellipse at 25% 60%, rgba(201,168,76,0.06) 0%, transparent 55%),
                      radial-gradient(ellipse at 75% 30%, rgba(201,168,76,0.04) 0%, transparent 45%)`,
       }} />
+
+      {/* Watermark logo — powoli obraca się w tle */}
+      <img
+        src="/logo-bez-tla.png"
+        alt=""
+        aria-hidden="true"
+        style={{
+          position:     "absolute",
+          top:          "50%",
+          left:         "50%",
+          transform:    "translate(-50%, -50%)",
+          width:        "min(600px, 90vw)",
+          height:       "min(600px, 90vw)",
+          objectFit:    "contain",
+          opacity:      0.04,
+          filter:       "grayscale(30%) brightness(2) sepia(20%)",
+          pointerEvents:"none",
+          userSelect:   "none",
+          zIndex:       0,
+          animation:    "slowRotate 60s linear infinite",
+        }}
+      />
 
       {/* Particles */}
       {PARTICLES.map((p) => (
