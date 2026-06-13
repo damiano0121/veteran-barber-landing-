@@ -601,15 +601,20 @@ function Salony() {
 /* ════════════════════════════════════════════════════
    NASZ ZESPÓŁ — z modalem
 ════════════════════════════════════════════════════ */
-const TEAM = [
+type TeamMember = {
+  name:   string;
+  salon:  string;
+  booksy: string;
+  photo?: string;
+};
+
+const TEAM: TeamMember[] = [
   { name: "Daniel Dryk",     salon: "Salon Rogowskiego 1, Dęblin",     booksy: "https://veteranbarber59.booksy.com/a/" },
   { name: "Joanna Dryk",     salon: "Salon Rogowskiego 1, Dęblin",     booksy: "https://veteranbarber59.booksy.com/a/" },
   { name: "Kasia Jaworska",  salon: "Salon 41 Baza Lotnicza, Dęblin",  booksy: "https://veteranbarber41bazalotnictwaszkolnego.booksy.com/a/" },
-  { name: "Natalia Chachaj", salon: "Salon 41 Baza Lotnicza, Dęblin",  booksy: "https://veteranbarber41bazalotnictwaszkolnego.booksy.com/a/" },
-  { name: "Magda Majewska",  salon: "Salon Ryki, Żytnia 8",            booksy: "https://veteranbarberryki.booksy.com/a/" },
+  { name: "Natalia Chachaj", salon: "Salon 41 Baza Lotnicza, Dęblin",  booksy: "https://veteranbarber41bazalotnictwaszkolnego.booksy.com/a/", photo: "/natalia.JPG" },
+  { name: "Magda Majewska",  salon: "Salon Ryki, Żytnia 8",            booksy: "https://veteranbarberryki.booksy.com/a/",                    photo: "/magda.JPG"    },
 ];
-
-type TeamMember = typeof TEAM[0];
 
 function BarberModal({ member, onClose }: { member: TeamMember; onClose: () => void }) {
   useEffect(() => {
@@ -638,9 +643,13 @@ function BarberModal({ member, onClose }: { member: TeamMember; onClose: () => v
         </button>
 
         {/* Avatar */}
-        <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "2px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
-          <span style={{ color: "#FFFFFF", fontSize: "1.6rem", fontWeight: 900 }}>{initials(member.name)}</span>
-        </div>
+        {member.photo ? (
+          <img src={member.photo} alt={member.name} style={{ width: 80, height: 80, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(201,168,76,0.5)", display: "block", margin: "0 auto 1.5rem", filter: "brightness(0.95)" }} />
+        ) : (
+          <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "2px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
+            <span style={{ color: "#FFFFFF", fontSize: "1.6rem", fontWeight: 900 }}>{initials(member.name)}</span>
+          </div>
+        )}
 
         <h3 style={{ color: "#FFFFFF", fontWeight: 800, fontSize: "1.2rem", textAlign: "center", marginBottom: "0.4rem", letterSpacing: "0.03em" }}>
           {member.name}
@@ -711,9 +720,13 @@ function BarberCard({ member, delay, onClick }: { member: TeamMember; delay: num
         boxShadow:     hovered ? "0 16px 40px rgba(0,0,0,0.4)" : "none",
       }}
     >
-      <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "2px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
-        <span style={{ color: "#FFFFFF", fontSize: "1.25rem", fontWeight: 900 }}>{initials(member.name)}</span>
-      </div>
+      {member.photo ? (
+        <img src={member.photo} alt={member.name} style={{ width: 80, height: 80, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(201,168,76,0.5)", display: "block", margin: "0 auto", filter: "brightness(0.95)" }} />
+      ) : (
+        <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "2px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto" }}>
+          <span style={{ color: "#FFFFFF", fontSize: "1.25rem", fontWeight: 900 }}>{initials(member.name)}</span>
+        </div>
+      )}
 
       <p style={{ color: "#FFFFFF", fontWeight: 700, fontSize: "0.9rem", marginTop: "1rem", marginBottom: "0.3rem", letterSpacing: "0.01em" }}>
         {member.name}
@@ -736,8 +749,21 @@ const PHOTOS = [
   "/klient%202.jpeg",
   "/klient%203.jpeg",
   "/klient%204.JPEG",
-  "/klient%205.JPEG",
 ];
+
+function WorkPhoto({ src }: { src: string }) {
+  return (
+    <div style={{ overflow: "hidden", borderRadius: 4, aspectRatio: "3 / 4" }}>
+      <img
+        src={src}
+        alt="Realizacja Veteran Barber"
+        style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4, border: "1px solid rgba(201,168,76,0.2)", display: "block", transition: "transform 0.3s ease, border-color 0.3s ease" }}
+        onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.02)"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.6)"; }}
+        onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)";    e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)"; }}
+      />
+    </div>
+  );
+}
 
 function Prace() {
   return (
@@ -754,33 +780,21 @@ function Prace() {
           Każde cięcie to nasza wizytówka.
         </p>
 
-        {/* Grid: video 2fr | foto 1fr 1fr */}
+        {/*
+          Grid asymetryczny:
+          Col 1 (2fr) — klient6 video, cała wysokość (row 1-3)
+          Col 2 (1fr) — klient5 video (row 1), klient1 foto (row 2), klient2 foto (row 3)
+          Col 3 (1fr) — klient3 foto (row 1), klient4 foto (row 2), złoty kafelek (row 3)
+        */}
         <div
           className="reveal prace-grid"
           data-delay={150}
-          style={{
-            display:             "grid",
-            gridTemplateColumns: "2fr 1fr 1fr",
-            gridTemplateRows:    "repeat(3, auto)",
-            gap:                 8,
-          }}
+          style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 8 }}
         >
-          {/* Video — lewa kolumna, cała wysokość */}
+          {/* klient6 — główne video, col 1, row 1-3 */}
           <div style={{ gridColumn: 1, gridRow: "1 / 4", overflow: "hidden", borderRadius: 4 }}>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              style={{
-                width:        "100%",
-                height:       "100%",
-                objectFit:    "cover",
-                borderRadius: 4,
-                border:       "1px solid rgba(201,168,76,0.2)",
-                display:      "block",
-                transition:   "border-color 0.3s ease",
-              }}
+            <video autoPlay muted loop playsInline
+              style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4, border: "1px solid rgba(201,168,76,0.2)", display: "block", transition: "border-color 0.3s ease" }}
               onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)")}
               onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)")}
             >
@@ -788,40 +802,44 @@ function Prace() {
             </video>
           </div>
 
-          {/* 5 zdjęć — prawa strona, 2 kolumny x 3 rzędy (ostatni rząd puste = tylko 5 zdjęć) */}
-          {PHOTOS.map((src, i) => (
-            <div key={src} style={{ aspectRatio: "3 / 4", overflow: "hidden", borderRadius: 4 }}>
-              <img
-                src={src}
-                alt="Realizacja Veteran Barber"
-                style={{
-                  width:        "100%",
-                  height:       "100%",
-                  objectFit:    "cover",
-                  borderRadius: 4,
-                  border:       "1px solid rgba(201,168,76,0.2)",
-                  display:      "block",
-                  transition:   "transform 0.3s ease, border-color 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform   = "scale(1.02)";
-                  e.currentTarget.style.borderColor = "rgba(201,168,76,0.6)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform   = "scale(1)";
-                  e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)";
-                }}
-              />
-            </div>
-          ))}
+          {/* klient5 — drugie video, col 2, row 1 */}
+          <div style={{ gridColumn: 2, gridRow: 1, overflow: "hidden", borderRadius: 4, aspectRatio: "3 / 4" }}>
+            <video autoPlay muted loop playsInline
+              style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 4, border: "1px solid rgba(201,168,76,0.2)", display: "block", transition: "border-color 0.3s ease" }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)")}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)")}
+            >
+              <source src="/klient5.MP4" type="video/mp4" />
+            </video>
+          </div>
+
+          {/* klient3 — col 3, row 1 */}
+          <div style={{ gridColumn: 3, gridRow: 1 }}><WorkPhoto src={PHOTOS[2]} /></div>
+
+          {/* klient1 — col 2, row 2 */}
+          <div style={{ gridColumn: 2, gridRow: 2 }}><WorkPhoto src={PHOTOS[0]} /></div>
+
+          {/* klient4 — col 3, row 2 */}
+          <div style={{ gridColumn: 3, gridRow: 2 }}><WorkPhoto src={PHOTOS[3]} /></div>
+
+          {/* klient2 — col 2, row 3 */}
+          <div style={{ gridColumn: 2, gridRow: 3 }}><WorkPhoto src={PHOTOS[1]} /></div>
+
+          {/* Złoty kafelek — col 3, row 3 */}
+          <div style={{ gridColumn: 3, gridRow: 3, aspectRatio: "3 / 4", borderRadius: 4, background: T.goldGrad, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "1.25rem", textAlign: "center" }}>
+            <span style={{ color: "#080808", fontWeight: 900, fontSize: "0.85rem", letterSpacing: "0.18em", textTransform: "uppercase", lineHeight: 1.3 }}>
+              Veteran<br />Barber
+            </span>
+            <div style={{ width: 28, height: 1, background: "rgba(8,8,8,0.3)", margin: "0.75rem auto" }} />
+            <span style={{ color: "rgba(8,8,8,0.65)", fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+              Haircut &amp; Shave
+            </span>
+          </div>
         </div>
 
         <p className="reveal" data-delay={400} style={{ color: T.textSec, fontSize: "0.875rem", textAlign: "center", marginTop: "2rem" }}>
           Chcesz zobaczyć więcej? Obserwuj nas na Instagramie —{" "}
-          <a
-            href="https://instagram.com/veteran_barber_pl"
-            target="_blank"
-            rel="noopener noreferrer"
+          <a href="https://instagram.com/veteran_barber_pl" target="_blank" rel="noopener noreferrer"
             style={{ color: T.gold, fontWeight: 600, transition: "text-decoration 0.2s" }}
             onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
             onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
@@ -835,13 +853,12 @@ function Prace() {
         @media (max-width: 768px) {
           .prace-grid {
             grid-template-columns: 1fr !important;
-            grid-template-rows: auto !important;
           }
-          .prace-grid > div:first-child {
+          .prace-grid > div {
             grid-column: 1 !important;
-            grid-row: 1 !important;
-            aspect-ratio: 9/16;
+            grid-row: auto !important;
           }
+          .prace-grid > div:first-child { aspect-ratio: 9/16; }
         }
       `}</style>
     </section>
