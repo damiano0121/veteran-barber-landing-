@@ -286,6 +286,20 @@ function Navbar() {
    HERO — bez logo
 ════════════════════════════════════════════════════ */
 function Hero() {
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const logo = document.getElementById("hero-logo");
+      if (logo) {
+        const opacity = Math.max(0, 0.82 - scrollY / 200);
+        logo.style.opacity = String(opacity);
+        logo.style.transform = `translateY(${scrollY * 0.15}px)`;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <section style={{ position: "relative", minHeight: "100vh", background: T.bgPrimary, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", paddingTop: 80 }}>
       {/* Spotlight gradients */}
@@ -310,6 +324,24 @@ function Hero() {
 
       {/* Content */}
       <div style={{ position: "relative", zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", padding: "0 1.5rem" }}>
+        {/* Logo z animacją scroll-fade */}
+        <img
+          id="hero-logo"
+          src="/logo-bez-tla.png"
+          alt="Veteran Barber"
+          style={{
+            width:      "180px",
+            height:     "180px",
+            objectFit:  "contain",
+            opacity:    0.82,
+            filter:     "drop-shadow(0 0 40px rgba(201,168,76,0.35)) brightness(0.92)",
+            transition: "opacity 0.1s ease",
+            animation:  "logoAppear 1s ease-out 0.1s both",
+            display:    "block",
+            margin:     "0 auto 1.5rem auto",
+          }}
+        />
+
         <h1 className="hero-h1" style={{
           fontSize: "clamp(2.8rem, 7vw, 6.5rem)", fontWeight: 900,
           letterSpacing: "0.08em", textTransform: "uppercase", lineHeight: 1.0, margin: 0,

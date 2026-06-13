@@ -45,6 +45,11 @@ body {
   66%      { transform: translateY(-8px) translateX(-5px);  opacity: 0.2; }
 }
 
+@keyframes logoAppear {
+  from { opacity: 0; transform: translateY(-20px) scale(0.9); }
+  to   { opacity: 0.82; transform: translateY(0px) scale(1); }
+}
+
 @keyframes scrollFill {
   0%   { height: 0;    top: 0; }
   50%  { height: 100%; top: 0; }
