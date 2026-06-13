@@ -729,8 +729,16 @@ function BarberCard({ member, delay, onClick }: { member: TeamMember; delay: num
 }
 
 /* ════════════════════════════════════════════════════
-   NASZE PRACE — photo grid
+   NASZE PRACE — video + photos grid
 ════════════════════════════════════════════════════ */
+const PHOTOS = [
+  "/klient%201.jpeg",
+  "/klient%202.jpeg",
+  "/klient%203.jpeg",
+  "/klient%204.JPEG",
+  "/klient%205.JPEG",
+];
+
 function Prace() {
   return (
     <section id="prace" style={{ position: "relative", zIndex: 1, background: T.bgPrimary, padding: "6rem 1.5rem" }}>
@@ -742,17 +750,73 @@ function Prace() {
           </h2>
           <GoldLine />
         </div>
-        <p className="reveal" data-delay={100} style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.95rem", textAlign: "center", marginBottom: "3rem", marginTop: "1rem" }}>
+        <p className="reveal" data-delay={100} style={{ color: "rgba(255,255,255,0.45)", fontSize: "0.95rem", textAlign: "center", marginBottom: "2rem", marginTop: "1rem" }}>
           Każde cięcie to nasza wizytówka.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }} className="prace-grid">
-          {Array.from({ length: 6 }, (_, i) => (
-            <PhotoPlaceholder key={i} delay={i * 60} />
+        {/* Grid: video 2fr | foto 1fr 1fr */}
+        <div
+          className="reveal prace-grid"
+          data-delay={150}
+          style={{
+            display:             "grid",
+            gridTemplateColumns: "2fr 1fr 1fr",
+            gridTemplateRows:    "repeat(3, auto)",
+            gap:                 8,
+          }}
+        >
+          {/* Video — lewa kolumna, cała wysokość */}
+          <div style={{ gridColumn: 1, gridRow: "1 / 4", overflow: "hidden", borderRadius: 4 }}>
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              style={{
+                width:        "100%",
+                height:       "100%",
+                objectFit:    "cover",
+                borderRadius: 4,
+                border:       "1px solid rgba(201,168,76,0.2)",
+                display:      "block",
+                transition:   "border-color 0.3s ease",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.5)")}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)")}
+            >
+              <source src="/klient6-film.MOV" type="video/mp4" />
+            </video>
+          </div>
+
+          {/* 5 zdjęć — prawa strona, 2 kolumny x 3 rzędy (ostatni rząd puste = tylko 5 zdjęć) */}
+          {PHOTOS.map((src, i) => (
+            <div key={src} style={{ aspectRatio: "3 / 4", overflow: "hidden", borderRadius: 4 }}>
+              <img
+                src={src}
+                alt="Realizacja Veteran Barber"
+                style={{
+                  width:        "100%",
+                  height:       "100%",
+                  objectFit:    "cover",
+                  borderRadius: 4,
+                  border:       "1px solid rgba(201,168,76,0.2)",
+                  display:      "block",
+                  transition:   "transform 0.3s ease, border-color 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform   = "scale(1.02)";
+                  e.currentTarget.style.borderColor = "rgba(201,168,76,0.6)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform   = "scale(1)";
+                  e.currentTarget.style.borderColor = "rgba(201,168,76,0.2)";
+                }}
+              />
+            </div>
           ))}
         </div>
 
-        <p className="reveal" data-delay={400} style={{ color: T.textSec, fontSize: "0.875rem", textAlign: "center", marginTop: "3rem" }}>
+        <p className="reveal" data-delay={400} style={{ color: T.textSec, fontSize: "0.875rem", textAlign: "center", marginTop: "2rem" }}>
           Chcesz zobaczyć więcej? Obserwuj nas na Instagramie —{" "}
           <a
             href="https://instagram.com/veteran_barber_pl"
@@ -768,43 +832,19 @@ function Prace() {
       </div>
 
       <style>{`
-        @media (max-width: 600px) { .prace-grid { grid-template-columns: 1fr !important; } }
-        @media (min-width: 601px) and (max-width: 900px) { .prace-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 768px) {
+          .prace-grid {
+            grid-template-columns: 1fr !important;
+            grid-template-rows: auto !important;
+          }
+          .prace-grid > div:first-child {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+            aspect-ratio: 9/16;
+          }
+        }
       `}</style>
     </section>
-  );
-}
-
-function PhotoPlaceholder({ delay }: { delay: number }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      className="reveal"
-      data-delay={delay}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        background:     hovered ? "rgba(201,168,76,0.04)" : "rgba(255,255,255,0.03)",
-        border:         `1px solid ${hovered ? "rgba(201,168,76,0.4)" : T.border}`,
-        borderRadius:   4,
-        aspectRatio:    "3 / 4",
-        display:        "flex",
-        flexDirection:  "column",
-        alignItems:     "center",
-        justifyContent: "center",
-        gap:            "0.75rem",
-        transition:     "all 0.3s ease",
-        transform:      hovered ? "scale(1.02)" : "scale(1)",
-        cursor:         "default",
-      }}
-    >
-      {/* Dodaj zdjęcia do /public/prace/ i podmień placeholder */}
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "rgba(255,255,255,0.2)" }}>
-        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-        <circle cx="12" cy="13" r="4" />
-      </svg>
-      <span style={{ color: "rgba(255,255,255,0.18)", fontSize: "0.75rem", letterSpacing: "0.08em" }}>Dodaj zdjęcie</span>
-    </div>
   );
 }
 
