@@ -285,28 +285,6 @@ function Hero() {
                      radial-gradient(ellipse at 75% 30%, rgba(201,168,76,0.04) 0%, transparent 45%)`,
       }} />
 
-      {/* Watermark logo — powoli obraca się w tle */}
-      <img
-        src="/logo.JPG"
-        alt=""
-        aria-hidden="true"
-        style={{
-          position:     "absolute",
-          top:          "50%",
-          left:         "50%",
-          transform:    "translate(-50%, -50%)",
-          width:        "min(600px, 90vw)",
-          height:       "min(600px, 90vw)",
-          objectFit:    "contain",
-          opacity:      0.13,
-          filter:       "grayscale(20%) brightness(1.8) sepia(10%)",
-          pointerEvents:"none",
-          userSelect:   "none",
-          zIndex:       0,
-          animation:    "slowRotate 60s linear infinite",
-        }}
-      />
-
       {/* Particles */}
       {PARTICLES.map((p) => (
         <div key={p.id} style={{
