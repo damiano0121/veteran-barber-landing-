@@ -642,12 +642,38 @@ function BarberModal({ member, onClose }: { member: TeamMember; onClose: () => v
           ✕
         </button>
 
-        {/* Avatar */}
+        {/* Avatar — duże zdjęcie lub inicjały */}
         {member.photo ? (
-          <img src={member.photo} alt={member.name} style={{ width: 80, height: 80, borderRadius: "50%", objectFit: "cover", border: "2px solid rgba(201,168,76,0.5)", display: "block", margin: "0 auto 1.5rem", filter: "brightness(0.95)" }} />
+          <img
+            src={member.photo}
+            alt={member.name}
+            style={{
+              width:        220,
+              height:       220,
+              borderRadius: "50%",
+              objectFit:    "cover",
+              objectPosition: "top",
+              border:       "3px solid rgba(201,168,76,0.6)",
+              display:      "block",
+              margin:       "0 auto 1.5rem",
+              filter:       "brightness(0.97)",
+              boxShadow:    "0 0 40px rgba(201,168,76,0.2)",
+            }}
+          />
         ) : (
-          <div style={{ width: 80, height: 80, borderRadius: "50%", background: "rgba(201,168,76,0.1)", border: "2px solid rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
-            <span style={{ color: "#FFFFFF", fontSize: "1.6rem", fontWeight: 900 }}>{initials(member.name)}</span>
+          <div style={{
+            width:          220,
+            height:         220,
+            borderRadius:   "50%",
+            background:     "rgba(201,168,76,0.08)",
+            border:         "3px solid rgba(201,168,76,0.4)",
+            display:        "flex",
+            alignItems:     "center",
+            justifyContent: "center",
+            margin:         "0 auto 1.5rem",
+            boxShadow:      "0 0 40px rgba(201,168,76,0.15)",
+          }}>
+            <span style={{ fontSize: "3rem", color: T.gold, fontWeight: 900 }}>{initials(member.name)}</span>
           </div>
         )}
 
