@@ -689,6 +689,7 @@ const SALONS = [
     barbers: ["Daniel Dryk", "Joanna Dryk"],
     booksy:  "https://veteranbarber59.booksy.com/a/",
     btnLabel:"Umów się — Rogowskiego",
+    mapSrc:  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39695.27289773679!2d21.8020974486328!3d51.550732300000014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47189de453c2a91b%3A0xd614d93340918fd9!2sVeteran%20Barber!5e0!3m2!1spl!2spl!4v1781376643041!5m2!1spl!2spl",
   },
   {
     name:    "Salon 41 Baza Lotnicza",
@@ -699,6 +700,7 @@ const SALONS = [
     barbers: ["Kasia Jaworska", "Natalia Chachaj"],
     booksy:  "https://veteranbarber41bazalotnictwaszkolnego.booksy.com/a/",
     btnLabel:"Umów się — 41 Baza",
+    mapSrc:  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2480.8206525045607!2d21.862413188460835!3d51.55318759917343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47189d29b98d4eb9%3A0x7ad6e46e9f597f13!2sVeteran%20Barber%20-%2041%20Baza%20Lotnictwa%20Szkolnego!5e0!3m2!1spl!2spl!4v1781376610941!5m2!1spl!2spl",
   },
   {
     name:    "Salon Ryki",
@@ -709,6 +711,7 @@ const SALONS = [
     barbers: ["Magda Majewska"],
     booksy:  "https://veteranbarberryki.booksy.com/a/",
     btnLabel:"Umów się — Ryki",
+    mapSrc:  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2477.085552345337!2d21.93264157640027!3d51.62164197183955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47189f2c80a824a3%3A0xbdcd6a63c35f7d13!2sVeteran%20Barber%20Ryki!5e0!3m2!1spl!2spl!4v1781376586816!5m2!1spl!2spl",
   },
 ];
 
@@ -778,6 +781,24 @@ function SalonCard({ s, delay }: { s: typeof SALONS[0]; delay: number }) {
       <CTAGold href={s.booksy} style={{ marginTop: "0.5rem", width: "100%", fontSize: "0.78rem" }}>
         {s.btnLabel}
       </CTAGold>
+
+      <iframe
+        src={s.mapSrc}
+        width="100%"
+        height="220"
+        style={{
+          border:       0,
+          borderRadius: 4,
+          outline:      "1px solid rgba(201,168,76,0.2)",
+          filter:       "grayscale(100%) invert(92%) contrast(83%)",
+          marginTop:    "1.5rem",
+          display:      "block",
+        }}
+        allowFullScreen
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title={`Mapa — ${s.name}`}
+      />
     </div>
   );
 }
